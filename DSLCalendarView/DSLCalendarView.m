@@ -49,6 +49,7 @@
 @property (nonatomic, strong) UIView *monthContainerView;
 @property (nonatomic, strong) UIView *monthContainerViewContentView;
 @property (nonatomic, strong) DSLCalendarMonthSelectorView *monthSelectorView;
+@property (nonatomic, strong) NSDateComponents *lastTouchedDay;
 
 @end
 
@@ -361,6 +362,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     DSLCalendarDayView *touchedView = [self dayViewForTouches:touches];
+    self.lastTouchedDay = touchedView.day;
     if (touchedView == nil) {
         self.draggingStartDay = nil;
         return;
@@ -403,6 +405,12 @@
         return;
     }
     
+    BOOL isTheSameDay = [self.lastTouchedDay.date isEqualToDate:touchedView.day.date];
+    self.lastTouchedDay = touchedView.day;
+    if (isTheSameDay) {
+        return;
+    }
+    
     DSLCalendarRange *newRange;
     if ([touchedView.day.date compare:self.draggingFixedDay.date] == NSOrderedAscending) {
         newRange = [[DSLCalendarRange alloc] initWithStartDay:touchedView.day endDay:self.draggingFixedDay];
@@ -431,6 +439,7 @@
     }
     
     DSLCalendarDayView *touchedView = [self dayViewForTouches:touches];
+    self.lastTouchedDay = touchedView.day;
     if (touchedView == nil) {
         self.draggingStartDay = nil;
         return;

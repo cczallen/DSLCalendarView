@@ -42,4 +42,6 @@
 - (BOOL)containsDay:(NSDateComponents*)day;
 - (BOOL)containsDate:(NSDate*)date;
 
+- (BOOL)isEqualToRange:(DSLCalendarRange *)calendarRange;
+
 @end

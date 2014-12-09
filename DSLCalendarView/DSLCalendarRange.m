@@ -98,4 +98,11 @@
     return YES;
 }
 
+- (BOOL)isEqualToRange:(DSLCalendarRange *)calendarRange {
+    if ([_startDate isEqualToDate:[calendarRange.startDay date]] && [_endDate isEqualToDate:[calendarRange.endDay date]]) {
+        return YES;
+    }
+    return NO;
+}
+
 @end
