@@ -39,6 +39,8 @@
 
 @property (nonatomic, copy, readonly) NSDateComponents *month;
 @property (nonatomic, strong, readonly) NSSet *dayViews;
+@property (nonatomic, strong) NSDate *minimumDate;
+@property (nonatomic, strong) NSDate *maximumDate;
 
 // Designated initialiser
 - (id)initWithMonth:(NSDateComponents*)month width:(CGFloat)width dayViewClass:(Class)dayViewClass dayViewHeight:(CGFloat)dayViewHeight;

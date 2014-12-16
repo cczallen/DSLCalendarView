@@ -166,6 +166,20 @@
     [self positionViewsForMonth:_visibleMonth fromMonth:fromMonth animated:animated];
 }
 
+- (void)setMinimumDate:(NSDate *)minimumDate {
+    _minimumDate = minimumDate;
+    [self.monthViews enumerateKeysAndObjectsUsingBlock:^(id key, DSLCalendarMonthView *monthView, BOOL *stop) {
+        monthView.minimumDate = minimumDate;
+    }];
+}
+
+- (void)setMaximumDate:(NSDate *)maximumDate {
+    _maximumDate = maximumDate;
+    [self.monthViews enumerateKeysAndObjectsUsingBlock:^(id key, DSLCalendarMonthView *monthView, BOOL *stop) {
+        monthView.maximumDate = maximumDate;
+    }];
+}
+
 
 #pragma mark - Events
 
@@ -211,6 +225,8 @@
 
         [monthView updateDaySelectionStatesForRange:self.selectedRange];
     }
+    monthView.minimumDate = self.minimumDate;
+    monthView.maximumDate = self.maximumDate;
     
     return monthView;
 }
@@ -368,6 +384,13 @@
         return;
     }
     
+    if (self.minimumDate && [touchedView.day.date isBeforeDay:self.minimumDate]) {
+        return;
+    }
+    if (self.maximumDate && [self.maximumDate isBeforeDay:touchedView.day.date]) {
+        return;
+    }
+    
     self.draggingStartDay = touchedView.day;
     self.draggingFixedDay = touchedView.day;
     self.draggedOffStartDay = NO;
@@ -408,6 +431,13 @@
     BOOL isTheSameDay = [self.lastTouchedDay.date isEqualToDate:touchedView.day.date];
     self.lastTouchedDay = touchedView.day;
     if (isTheSameDay) {
+        return;
+    }
+    
+    if (self.minimumDate && [touchedView.day.date isBeforeDay:self.minimumDate]) {
+        return;
+    }
+    if (self.maximumDate && [self.maximumDate isBeforeDay:touchedView.day.date]) {
         return;
     }
     
@@ -506,7 +536,6 @@
     
     return nil;
 }
-
 
 #pragma mark - Day callout view methods
 

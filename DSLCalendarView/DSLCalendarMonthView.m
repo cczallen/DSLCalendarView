@@ -120,6 +120,12 @@
                         break;
                 }
                 
+                BOOL isDisabled = NO;
+                if ( (self.minimumDate && [day.date isBeforeDay:self.minimumDate]) || (self.maximumDate && [self.maximumDate isBeforeDay:day.date]) ) {
+                    isDisabled = YES;
+                }
+                dayView.isDisabled = isDisabled;
+                
                 [self.dayViewsDictionary setObject:dayView forKey:[self dayViewKeyForDay:day]];
                 [self addSubview:dayView];
             }
@@ -225,6 +231,32 @@
 
 - (DSLCalendarDayView*)dayViewForDay:(NSDateComponents*)day {
     return [self.dayViewsDictionary objectForKey:[self dayViewKeyForDay:day]];
+}
+
+- (void)setMinimumDate:(NSDate *)minimumDate {
+    _minimumDate = minimumDate;
+    //redraw dayViews
+    [self reloadDayViewsMinMaxDate];
+}
+
+- (void)setMaximumDate:(NSDate *)maximumDate {
+    _maximumDate = maximumDate;
+    //redraw dayViews
+    [self reloadDayViewsMinMaxDate];
+}
+
+- (void)reloadDayViewsMinMaxDate {
+    [self.dayViews enumerateObjectsUsingBlock:^(DSLCalendarDayView *dayView, BOOL *stop) {
+        NSDateComponents *day = dayView.day;
+        BOOL isDisabled = NO;
+        if ( (self.minimumDate && [day.date isBeforeDay:self.minimumDate]) || (self.maximumDate && [self.maximumDate isBeforeDay:day.date]) ) {
+            isDisabled = YES;
+        }
+        if (isDisabled != dayView.isDisabled) {
+            dayView.isDisabled = isDisabled;
+            [dayView setNeedsDisplay];
+        }
+    }];
 }
 
 @end

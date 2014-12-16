@@ -23,6 +23,8 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     self.calendarView.delegate = self;
+    self.calendarView.minimumDate = [NSDate date];
+    self.calendarView.maximumDate = [NSDate dateWithTimeIntervalSinceNow:86400*7];
 }
 
 - (void)viewDidUnload

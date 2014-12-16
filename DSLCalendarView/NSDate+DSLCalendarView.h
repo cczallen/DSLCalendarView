@@ -13,4 +13,10 @@
 - (NSDateComponents*)dslCalendarView_dayWithCalendar:(NSCalendar*)calendar;
 - (NSDateComponents*)dslCalendarView_monthWithCalendar:(NSCalendar*)calendar;
 
+
+- (BOOL)isBeforeDay:(NSDate *)day2;
+//  NSDateAdditions.m
+//  SymbioCalendar
+- (NSDate *)cc_dateByMovingToBeginningOfDay;
+
 @end

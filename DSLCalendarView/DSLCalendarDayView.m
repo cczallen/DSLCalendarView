@@ -175,6 +175,10 @@
         [[UIColor whiteColor] set];
     }
     
+    if (self.isDisabled) {
+        [[UIColor colorWithWhite:0.702 alpha:1.000] setFill];
+    }
+    
     UIFont *textFont = [UIFont boldSystemFontOfSize:17.0];
     CGSize textSize = [_labelText sizeWithFont:textFont];
     
